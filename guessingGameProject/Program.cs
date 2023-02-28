@@ -1,16 +1,55 @@
 ﻿using System;
 
-Console.WriteLine("Welcome to the Guessing Game");
-Console.WriteLine("-----------------------------");
+Random r = new Random();
+int SecretNum = r.Next(1, 100);
 
-string question = "What do you think the secret number is?";
-
-
-void GameAsks(string question)
+void NumberPrompt(string question, int secretNum)
 {
-    Console.WriteLine($"{question}");
-    string answer = Console.ReadLine();
-    Console.WriteLine($"You guessed the number {answer}");
-};
+    Console.WriteLine(secretNum);
+    Console.WriteLine("easy, medium, hard or cheater?");
+    string difficultyAnswer = Console.ReadLine();
 
-GameAsks(question);
+    int numOfTurns = 0;
+
+    if (difficultyAnswer == "easy")
+    {
+        numOfTurns = 8;
+    }
+    if (difficultyAnswer == "medium")
+    {
+        numOfTurns = 6;
+    }
+    if (difficultyAnswer == "hard")
+    {
+        numOfTurns = 4;
+    }
+    if (difficultyAnswer == "cheater")
+    {
+        numOfTurns = int.MaxValue;
+    }
+    for (int i = 0; i < numOfTurns; i++)
+    {
+        Console.WriteLine($"{question}");
+        string answer = Console.ReadLine();
+        int parsedAnswer = int.Parse(answer);
+        if (parsedAnswer == secretNum)
+        {
+            Console.WriteLine("Correct Number");
+            return;
+        }
+        else
+        {
+            if (parsedAnswer < secretNum)
+            {
+                Console.WriteLine("Too Low");
+            }
+            else
+            {
+                Console.WriteLine("Too High");
+            }
+            Console.WriteLine($"You have {numOfTurns - (i + 1)} guesses remaining");
+        }
+    }
+}
+
+NumberPrompt("Guess number", SecretNum);
